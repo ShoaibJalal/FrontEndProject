@@ -7,21 +7,28 @@ import {
   Link
 } from 'react-router-dom';
 import MoviesPage from './MoviesPage';
+import MovieForm from './MovieForm';
+
+const ActiveLink = ({ label, to, activeOnlyWhenExact }) => (
+  <Route path={to} exact={activeOnlyWhenExact} children={({ match }) => (
+    <Link className={match ? 'active item' : 'item'} to={to}>{label}</Link>
+  )} />
+);
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          <Link to="/movies">movies</Link>
-        </p>
-        <Route path="/movies" component={MoviesPage}/>
+      <div className="ui container">
+        <div className="ui three item menu">
+          <ActiveLink activeOnlyWhenExact to="/" label="Home" />
+          <ActiveLink activeOnlyWhenExact to="/movies" label="Movies" />
+          <ActiveLink activeOnlyWhenExact to="/movies/new" label="Add a new movie" />
+        </div>
+
+        <Route exact path="/movies" component={MoviesPage} />
+        <Route path="/movies/new" component={MovieForm} />
       </div>
-    );
+);
   }
 }
 
