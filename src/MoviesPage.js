@@ -2,7 +2,7 @@ import React from 'react';
 import MoviesList from './MoviesList';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchMovies } from './actions';
+import { fetchMovies, deleteMovie } from './actions';
 
 class MoviesPage extends React.Component {
   componentDidMount() {
@@ -13,7 +13,7 @@ class MoviesPage extends React.Component {
       <div>
         <h1>Movies List</h1>
 
-        <MoviesList movies={this.props.movies} />
+        <MoviesList movies={this.props.movies} deleteMovie={this.props.deleteMovie}  />
       </div>
     );
   }
@@ -21,7 +21,8 @@ class MoviesPage extends React.Component {
 
 MoviesPage.propTypes = {
   movies:PropTypes.array.isRequired,
-  fetchMovies: PropTypes.func.isRequired
+  fetchMovies: PropTypes.func.isRequired,
+  deleteMovie: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -30,4 +31,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps,{fetchMovies})(MoviesPage);
+export default connect(mapStateToProps,{fetchMovies,deleteMovie})(MoviesPage);

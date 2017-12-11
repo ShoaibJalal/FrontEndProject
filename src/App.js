@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -7,7 +6,8 @@ import {
   Link
 } from 'react-router-dom';
 import MoviesPage from './MoviesPage';
-import MovieForm from './MovieForm';
+import MovieFormPage from './MovieFormPage';
+
 
 const ActiveLink = ({ label, to, activeOnlyWhenExact }) => (
   <Route path={to} exact={activeOnlyWhenExact} children={({ match }) => (
@@ -26,7 +26,8 @@ class App extends Component {
         </div>
 
         <Route exact path="/movies" component={MoviesPage} />
-        <Route path="/movies/new" component={MovieForm} />
+        <Route path="/movies/new" component={MovieFormPage} />
+        <Route path="/movies/:_id" component={MovieFormPage} />
       </div>
 );
   }

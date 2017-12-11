@@ -1,12 +1,24 @@
 import React from 'react';
 import classnames from 'classnames';
 
+
 class MovieForm extends React.Component {
   state = {
-    title: '',
-    cover: '',
-    errors: {}
+    _id: this.props.movie ? this.props.movie._id : null,
+    title: this.props.movie ? this.props.movie.title : '',
+cover: this.props.movie ? this.props.movie.cover : '',
+    errors: {},
+    loading: false,
   }
+
+  componentWillReceiveProps = (nextProps) => {
+    this.setState({
+      _id: nextProps.movie._id,
+      title: nextProps.movie.title,
+      cover: nextProps.movie.cover
+    });
+  }
+
 
   handleChange = (e) => {
     if (!!this.state.errors[e.target.name]) {
@@ -29,12 +41,22 @@ class MovieForm extends React.Component {
     if (this.state.title === '') errors.title = "Can not be empty";
     if (this.state.cover === '') errors.cover = "Can not be empty";
     this.setState({ errors });
+    const isValid = Object.keys(errors).length === 0
+    
+        if (isValid) {
+          const { _id,title, cover } = this.state;
+          this.setState({ loading: true });
+          this.props.saveMovie({ _id, title, cover })
+          .catch((err) => err.response.json().then(({errors}) => this.setState({ errors, loading: false })));
+    }
   }
 
   render() {
-    return (
-      <form className="ui form" onSubmit={this.handleSubmit}>
+    const form= (
+        <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleSubmit}>
         <h1>Add new movie</h1>
+
+        {!!this.state.errors.global && <div className="ui negative message"><p>{this.state.errors.global}</p></div>}
 
         <div className={classnames('field', { error: !!this.state.errors.title})}>
           <label htmlFor="title">Title</label>
@@ -67,7 +89,12 @@ class MovieForm extends React.Component {
         </div>
       </form>
     );
+    return (
+        <div>
+          { form }
+        </div>
+  ); 
   }
 }
-
-export default MovieForm;
+  
+  export default MovieForm;

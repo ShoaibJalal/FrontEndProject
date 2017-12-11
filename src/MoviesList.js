@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import MovieCard from './MovieCard';
 
-export default function MoviesList({ movies }) {
+export default function MoviesList({ movies, deleteMovie }) {
   const emptyMessage = (
     <p>There are no movies yet to display.</p>
   );
 
   const moviesList = (
-    <p>Movies List</p>
+    <div className="ui four cards">
+    { movies.map(movie => <MovieCard movie={movie} key={movie._id} deleteMovie={deleteMovie} />) }
+</div>
   );
 
   return (
@@ -18,5 +21,6 @@ export default function MoviesList({ movies }) {
 }
 
 MoviesList.propTypes = {
-  movies:PropTypes.array.isRequired
+  movies:PropTypes.array.isRequired,
+  deleteMovie:PropTypes.func.isRequired
 }
