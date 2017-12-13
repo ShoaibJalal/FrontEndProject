@@ -6,9 +6,9 @@ class MovieForm extends React.Component {
   state = {
     _id: this.props.movie ? this.props.movie._id : null,
     title: this.props.movie ? this.props.movie.title : '',
-cover: this.props.movie ? this.props.movie.cover : '',
+    cover: this.props.movie ? this.props.movie.cover : '',
     errors: {},
-    loading: false,
+    loading: false
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -52,7 +52,7 @@ cover: this.props.movie ? this.props.movie.cover : '',
   }
 
   render() {
-    const form= (
+    const form = (
         <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleSubmit}>
         <h1>Add new movie</h1>
 

@@ -1,10 +1,11 @@
-import express from 'express';
-import mongodb from 'mongodb';
-import bodyParser from 'body-parser';
+const express = require('express');
+const MongoClient = require('mongodb').MongoClient;
+const bodyParser = require('body-parser');
 
 const app = express();
 app.use(bodyParser.json());
 const dbUrl = 'mongodb://localhost/crudwithredux';
+
 
 function validate(data) {
   let errors = {};
@@ -14,10 +15,11 @@ function validate(data) {
   return { errors, isValid };
 }
 
-mongodb.MongoClient.connect(dbUrl, function(err, db) {
+MongoClient.connect(dbUrl, function(err, db) {
 
+  
   app.get('/api/movies', (req, res) => {
-    db.collection('movies').find({}).toArray((err, movies) => {
+   db.collection('movies').find({}).toArray((err, movies) => {
       res.json({ movies });
     });
   });
@@ -80,6 +82,7 @@ app.delete('/api/movies/:_id', (req, res) => {
     });
 })
 
-  app.listen(8080, () => console.log('Server is running on localhost:8080'));
+// listening on port 8080 for requests
+app.listen( 8080, () => console.log('Server is running on localhost:8080'));
 
 });

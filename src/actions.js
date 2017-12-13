@@ -96,7 +96,7 @@ export function fetchMovies() {
 
 export function fetchMovie(id) {
   return dispatch => {
-    fetch('/api/movies/${id}')
+    fetch(`/api/movies/${id}`)
       .then(res => res.json())
       .then(data => dispatch(movieFetched(data.movie)));
   }
